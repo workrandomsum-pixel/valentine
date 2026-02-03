@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Noddy’s Boyfriend Test 💀💖</title>
+
+<style>
+body {
+  font-family: 'Comic Sans MS', cursive;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 25px;
+  width: 90%;
+  max-width: 460px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+h1 { color: #ff4d6d; }
+
+button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  background: #ffe4e9;
+}
+
+button:hover { background: #ffb6c1; }
+
+.yes { background: #ff4d6d; color: white; }
+
+.no {
+  position: absolute;
+  background: #ccc;
+}
+
+/* ❤️ Hearts */
+.heart {
+  position: absolute;
+  font-size: 22px;
+  animation: floatUp 5s linear infinite;
+}
+@keyframes floatUp {
+  from { transform: translateY(100vh); opacity: 0; }
+  to { transform: translateY(-10vh); opacity: 1; }
+}
+
+/* 🎉 Confetti */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  animation: fall 3s linear infinite;
+}
+@keyframes fall {
+  from { transform: translateY(-10vh); }
+  to { transform: translateY(100vh); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 MUSIC -->
+<audio autoplay loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="card">
+  <h1>Hi Noddy 😌</h1>
+  <p>This quiz decides your Valentine fate.</p>
+  <button onclick="next()">Start if you’re brave 💀</button>
+</div>
+
+<script>
+let step = 0;
+let score = 0;
+
+const roastWrong = [
+  "WRONG. Embarrassing 😭",
+  "Try again… think harder 🧠",
+  "Is that your final answer?? 😏",
+  "I expected better from you 💀",
+  "Disappointed but not surprised 😌"
+];
+
+const quiz = [
+  {
+    q: "Who is the hottest person alive?",
+    options: [
+      {t:"Me 😌", c:true},
+      {t:"You", c:false},
+      {t:"Some celebrity", c:false},
+      {t:"Why is this hard?", c:false}
+    ]
+  },
+  {
+    q: "When I say 'I’m fine', it actually means:",
+    options: [
+      {t:"She’s fine", c:false},
+      {t:"Run 😭", c:true},
+      {t:"Buy food", c:true},
+      {t:"Apologize immediately", c:true}
+    ]
+  },
+  {
+    q: "Your job as my boyfriend is to:",
+    options: [
+      {t:"Love me", c:true},
+      {t:"Annoy me", c:true},
+      {t:"Defend me", c:true},
+      {t:"All of the above 😌", c:true}
+    ]
+  },
+  {
+    q: "If I steal your hoodie:",
+    options: [
+      {t:"Give it back", c:false},
+      {t:"Steal it again", c:false},
+      {t:"Accept your fate", c:true},
+      {t:"Buy her another one", c:true}
+    ]
+  },
+  {
+    q: "Who is always right?",
+    options: [
+      {t:"You", c:false},
+      {t:"Logic", c:false},
+      {t:"Me 😌", c:true},
+      {t:"Why are you asking", c:true}
+    ]
+  },
+  {
+    q: "Best response to 'I’m hungry':",
+    options: [
+      {t:"Same", c:false},
+      {t:"Order food NOW 🍔", c:true},
+      {t:"What do you want?", c:true},
+      {t:"Anything you want baby 😭", c:true}
+    ]
+  },
+  {
+    q: "If I’m mad for no reason:",
+    options: [
+      {t:"Argue", c:false},
+      {t:"Disappear", c:false},
+      {t:"Apologize anyway", c:true},
+      {t:"Hug until forgiven", c:true}
+    ]
+  },
+  {
+    q: "Do you love me?",
+    options: [
+      {t:"Yes ❤️", c:true},
+      {t:"Obviously 🙄", c:true},
+      {t:"More than food", c:true},
+      {t:"Infinity ♾️", c:true}
+    ]
+  },
+  {
+    q: "Final boss question 💀",
+    options: [
+      {t:"I already know I passed 😏", c:true},
+      {t:"Why was this stressful", c:true},
+      {t:"Can I say yes now", c:true},
+      {t:"Help 😭", c:true}
+    ]
+  }
+];
+
+function next(correct) {
+  if (correct === true) score++;
+  if (correct === false) alert(roastWrong[Math.floor(Math.random()*roastWrong.length)]);
+
+  if (step < quiz.length) {
+    let q = quiz[step];
+    let html = `<h1>${q.q}</h1>`;
+    q.options.forEach(o => {
+      html += `<button onclick="next(${o.c})">${o.t}</button>`;
+    });
+    document.getElementById("card").innerHTML = html;
+    step++;
+  } else {
+    result();
+  }
+}
+
+function result() {
+  let msg =
+    score >= 8 ? "Elite Boyfriend 🏆" :
+    score >= 6 ? "Acceptable… barely 😌" :
+    "Needs serious improvement 💀";
+
+  document.getElementById("card").innerHTML = `
+    <h1>Results 😏</h1>
+    <p>Score: ${score}/${quiz.length}</p>
+    <p>${msg}</p>
+    <button onclick="valentine()">Continue 💖</button>
+  `;
+}
+
+function valentine() {
+  document.getElementById("card").innerHTML = `
+    <h1>Noddy 💘</h1>
+    <p>Will you be my Valentine?</p>
+    <button class="yes" onclick="yes()">YES 💖</button>
+    <button class="no" id="no">No 😢</button>
+  `;
+  const no = document.getElementById("no");
+  no.style.top = "70%";
+  no.style.left = "55%";
+  no.addEventListener("mouseover", moveNo);
+}
+
+function moveNo() {
+  const no = document.getElementById("no");
+  no.style.left = Math.random()*300 + "px";
+  no.style.top = Math.random()*200 + "px";
+}
+
+function yes() {
+  document.getElementById("card").innerHTML = `
+    <h1>CONGRATS 🎉💖</h1>
+    <p>You are officially my Valentine, Noddy 😌❤️</p>
+  `;
+  confetti();
+}
+
+function confetti() {
+  for (let i = 0; i < 100; i++) {
+    let c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random()*100 + "vw";
+    c.style.background = `hsl(${Math.random()*360},100%,70%)`;
+    document.body.appendChild(c);
+  }
+}
+
+/* ❤️ Hearts */
+setInterval(() => {
+  let h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "❤️";
+  h.style.left = Math.random()*100 + "vw";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 5000);
+}, 500);
+</script>
+
+</body>
+</html>
